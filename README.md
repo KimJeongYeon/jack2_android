@@ -17,4 +17,16 @@ Requirements
  - Alsa user library(libasound.so) is required and available in "SM-N900T\_NA\_JB\_Opensource.zip".
  - required root privilege to run jack on adb shell.
 
-Documentation will be updated...
+How to run
+----
+jack2_android supports emulator with sound using qemu's audio driver. Therefore you able to run jack server & applications without real target.
+ 1. prepare to install Android's SDK which have emulator.
+ 2. download /binaries/jack2_android_binary_xxxxxxxx.tar.gz from github.
+ 3. run emulator
+ 4. run script for copying libraries and executive files. (if you don't have write permission, copy system.img file to your .android/avd/[NAME].avd)
+ 5. run adb shell
+   1. # stop media
+   2. # androidshmservice &
+   3. # jackd -v -d goldfish &
+   4. # jack_simple_client &
+
