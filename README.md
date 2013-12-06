@@ -23,7 +23,7 @@ jack2_android supports emulator with sound using qemu's audio driver. Therefore 
  1. prepare to install Android's SDK which have emulator.
  2. download /binaries/jack2_android_binary_xxxxxxxx.tar.gz from github.
  3. run emulator
- 4. run script for copying libraries and executive files. (if you don't have write permission, copy system.img file to your .android/avd/[NAME].avd)
+ 4. run script 'copy_target.sh' for copying libraries and executive files. (if you don't have write permission, copy system.img file to your ~/.android/avd/[NAME].avd)
  5. run adb shell
    1. # stop media
    2. # androidshmservice &
