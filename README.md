@@ -30,3 +30,4 @@ jack2_android supports emulator with sound using qemu's audio driver. Therefore 
    3. # jackd -v -d goldfish &
    4. # jack_simple_client &
 
+Document will be updated...
