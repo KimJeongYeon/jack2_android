@@ -283,13 +283,6 @@ int JackEngine::ClientNotify(JackClientInterface* client, int refnum, const char
     
     int ret;
    
-#if (JACK_ANDROID)  //android doesn't recommend to use 'dynamic_cast' with RTTI.
-    bool res = Unlock();
-    ret = client->ClientNotify(refnum, name, notify, sync, message, value1, value2);
-    if (res) {
-        Lock();
-    }
-#else
     // External client
     if (dynamic_cast<JackExternalClient*>(client)) {
        ret = client->ClientNotify(refnum, name, notify, sync, message, value1, value2);
@@ -301,7 +294,6 @@ int JackEngine::ClientNotify(JackClientInterface* client, int refnum, const char
             Lock();
         }
     }
-#endif
     
     if (ret < 0) {
         jack_error("NotifyClient fails name = %s notification = %ld val1 = %ld val2 = %ld", name, notify, value1, value2);

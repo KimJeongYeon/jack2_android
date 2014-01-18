@@ -251,9 +251,7 @@ class JackShmReadWritePtr1
                 destroy it. because we have our own attachment to it, it won't
                 vanish till we exit (and release it).
                 */
-#if !(JACK_ANDROID)
                 jack_destroy_shm(&fInfo);
-#endif
             }
         }
 

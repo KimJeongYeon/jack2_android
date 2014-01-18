@@ -22,8 +22,6 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 #ifndef POST_PACKED_STRUCTURE
 
-    #define JACK_ANDROID 1
-
     #ifdef __GNUC__
         /* POST_PACKED_STRUCTURE needs to be a macro which
            expands into a compiler directive. The directive must
@@ -34,11 +32,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         */
 
         #define PRE_PACKED_STRUCTURE
-        #if (JACK_ANDROID)
-            #define POST_PACKED_STRUCTURE
-        #else
-            #define POST_PACKED_STRUCTURE __attribute__((__packed__))
-        #endif
+        #define POST_PACKED_STRUCTURE __attribute__((__packed__))
 
     #else
     
@@ -58,9 +52,9 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         #else
             #define PRE_PACKED_STRUCTURE
             #define POST_PACKED_STRUCTURE
-        #endif
+        #endif /* _MSC_VER */
 
-    #endif
+    #endif /* __GNUC__ */
 
 #endif
 
@@ -107,7 +101,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         typedef pthread_t jack_native_thread_t;
     #endif
 
-#endif // WIN32 && !__CYGWIN__ && !GNU_WIN32 */
+#endif /* WIN32 && !__CYGWIN__ && !GNU_WIN32 */
 
 #if defined(__APPLE__) || defined(__linux__) || defined(__sun__) || defined(sun) || defined(__unix__) || defined(__CYGWIN__) || defined(GNU_WIN32)
 
@@ -124,6 +118,11 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
          */
         typedef pthread_t jack_native_thread_t;
 
-    #endif /* __APPLE__ || __linux__ || __sun__ || sun */
+#endif /* __APPLE__ || __linux__ || __sun__ || sun */
 
-#endif
+#if defined(__arm__)
+    #undef POST_PACKED_STRUCTURE
+    #define POST_PACKED_STRUCTURE
+#endif /* __arm__ */
+
+#endif /* __jack_systemdeps_h__ */

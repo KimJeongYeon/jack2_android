@@ -21,8 +21,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define __JackSocket__
 
 #include <sys/types.h>
+#include <sys/un.h>
 #include <sys/socket.h>
-#include <sys/un.h>  //for build
 #include <sys/ioctl.h>
 #include <sys/time.h>
 #include <arpa/inet.h>

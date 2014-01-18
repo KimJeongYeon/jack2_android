@@ -44,10 +44,6 @@ void JackShmMemAble::Init()
     fInfo.index = gInfo.index;
     fInfo.ptr.attached_at = gInfo.ptr.attached_at;
     fInfo.size = gInfo.size;
-#if (USE_ANDROID_SHM)
-    fInfo.fd = gInfo.fd;
-#endif
-
 }
 
 void* JackShmMem::operator new(size_t size, void* memory)
@@ -80,9 +76,6 @@ void* JackShmMem::operator new(size_t size)
     // so use an intermediate global data
     gInfo.index = info.index;
     gInfo.size = size;
-#if (USE_ANDROID_SHM)
-    gInfo.fd = info.fd;
-#endif
     gInfo.ptr.attached_at = info.ptr.attached_at;
 
     jack_log("JackShmMem::new index = %ld attached = %x size = %ld ", info.index, info.ptr.attached_at, size);
@@ -143,28 +136,20 @@ void UnlockMemoryImp(void* ptr, size_t size)
 
 void LockAllMemory()
 {
-#if !(JACK_ANDROID)
     if (CHECK_MLOCKALL()) {
         jack_log("Succeeded in locking all memory");
     } else {
         jack_error("Cannot lock all memory (%s)", strerror(errno));
     }
-#else
-    jack_log("LockAllMemory() is not used");
-#endif
 }
 
 void UnlockAllMemory()
 {
-#if !(JACK_ANDROID)
-	if (CHECK_MUNLOCKALL()) {
+    if (CHECK_MUNLOCKALL()) {
         jack_log("Succeeded in unlocking all memory");
     } else {
         jack_error("Cannot unlock all memory (%s)", strerror(errno));
     }
-#else
-    jack_log("UnlockAllMemory() is not used");
-#endif
 }
 
 

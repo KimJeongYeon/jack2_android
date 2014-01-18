@@ -71,6 +71,9 @@ int JackGoldfishDriver::Open(jack_nframes_t buffer_size,
 int JackGoldfishDriver::Close() {
     jack_log("JackGoldfishDriver::Close");
 
+    // Generic audio driver close
+    int res = JackAudioDriver::Close();
+
     if (mFd >= 0) ::close(mFd);
 
     if (mBuffer) {
@@ -78,35 +81,6 @@ int JackGoldfishDriver::Close() {
         mBuffer = NULL;
     }
 
-    return 0;
-}
-
-int JackGoldfishDriver::Attach() {
-    jack_log("JackGoldfishDriver::Attach");
-    if (JackAudioDriver::Attach() == 0) {
-        return 0;
-    } else {
-        return -1;
-    }
-}
-
-int JackGoldfishDriver::Start() {
-    jack_log("JackGoldfishDriver::Start");
-    if (JackAudioDriver::Start() >= 0) {
-        if (1 /* start stream */) {
-            return 0;
-        }
-        JackAudioDriver::Stop();
-    }
-    return -1;
-}
-
-int JackGoldfishDriver::Stop() {
-    jack_log("JackGoldfishDriver::Stop");
-    int res = (1 /* stop stream */) ? 0 : -1;
-    if (JackAudioDriver::Stop() < 0) {
-        res = -1;
-    }
     return res;
 }
 

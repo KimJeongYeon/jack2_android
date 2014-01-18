@@ -20,14 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef __JackPlatformPlug_linux__
 #define __JackPlatformPlug_linux__
 
-#define JACK_ANDROID 1
-#if (JACK_ANDROID)
-#define jack_server_dir "/data/misc/jack"
-#define jack_client_dir "/data/misc/jack"
-#else
 #define jack_server_dir "/dev/shm"
 #define jack_client_dir "/dev/shm"
-#endif
 #define JACK_DEFAULT_DRIVER "alsa"
 
 namespace Jack

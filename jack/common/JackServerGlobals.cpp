@@ -24,10 +24,6 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #include <getopt.h>
 #include <errno.h>
 
-#if (JACK_ANDROID)
-#define tolower(x) (x)
-#endif
-
 static char* server_name = NULL;
 
 namespace Jack

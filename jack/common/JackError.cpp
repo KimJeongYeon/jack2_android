@@ -25,17 +25,6 @@
 #include "JackGlobals.h"
 #include "JackMessageBuffer.h"
 
-#ifdef USE_ANDROID_LOGCAT
-#define LOG_BUF_SIZE 1024
-#undef  LOG_TAG
-#ifdef SERVER_SIDE
-#define LOG_TAG "JackAudioServer"
-#else
-#define LOG_TAG "JackAudioClient"
-#endif
-#include <utils/Log.h>
-#endif
-
 using namespace Jack;
 
 static bool change_thread_log_function(jack_log_function_t log_function)
@@ -101,57 +90,28 @@ static void jack_format_and_log(int level, const char *prefix, const char *fmt, 
 
 SERVER_EXPORT void jack_error(const char *fmt, ...)
 {
-#ifdef USE_ANDROID_LOGCAT
-	va_list ap;
-    char buf[LOG_BUF_SIZE];
-    va_start(ap, fmt);
-    vsnprintf(buf, LOG_BUF_SIZE, fmt, ap);
-    va_end(ap);
-    __android_log_write(ANDROID_LOG_ERROR, LOG_TAG, buf);
-#else
 	va_list ap;
 	va_start(ap, fmt);
 	jack_format_and_log(LOG_LEVEL_ERROR, NULL, fmt, ap);
 	va_end(ap);
-#endif
 }
 
 SERVER_EXPORT void jack_info(const char *fmt, ...)
 {
-#ifdef USE_ANDROID_LOGCAT
-	va_list ap;
-	char buf[LOG_BUF_SIZE];
-	va_start(ap, fmt);
-	vsnprintf(buf, LOG_BUF_SIZE, fmt, ap);
-	va_end(ap);
-	__android_log_write(ANDROID_LOG_INFO, LOG_TAG, buf);
-#else
 	va_list ap;
 	va_start(ap, fmt);
 	jack_format_and_log(LOG_LEVEL_INFO, NULL, fmt, ap);
 	va_end(ap);
-#endif
 }
 
 SERVER_EXPORT void jack_log(const char *fmt,...)
 {
-#ifdef USE_ANDROID_LOGCAT
-	va_list ap;
-	char buf[LOG_BUF_SIZE];
-	if (JackGlobals::fVerbose) {
-		va_start(ap, fmt);
-		vsnprintf(buf, LOG_BUF_SIZE, fmt, ap);
-		va_end(ap);
-		__android_log_write(ANDROID_LOG_VERBOSE, LOG_TAG, buf);
-	}
-#else
 	if (JackGlobals::fVerbose) {
 		va_list ap;
 		va_start(ap, fmt);
         jack_format_and_log(LOG_LEVEL_INFO, "Jack: ", fmt, ap);
 		va_end(ap);
 	}
-#endif
 }
 
 SERVER_EXPORT void default_jack_error_callback(const char *desc)

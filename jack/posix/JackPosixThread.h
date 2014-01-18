@@ -31,14 +31,6 @@ namespace Jack
  * with mlockall() on many systems */
 #define THREAD_STACK 524288
 
-#if (JACK_ANDROID)
-enum
-{
-  PTHREAD_CANCEL_DEFERRED,
-  PTHREAD_CANCEL_ASYNCHRONOUS
-};
-#endif
-
 /*!
 \brief The POSIX thread base class.
 */
@@ -50,9 +42,6 @@ class SERVER_EXPORT JackPosixThread : public detail::JackThreadInterface
 
         jack_native_thread_t fThread;
         static void* ThreadHandler(void* arg);
-#if (JACK_ANDROID)
-        static void thread_exit_handler(int sig);
-#endif
 
     public:
 

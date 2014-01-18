@@ -26,12 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <time.h>
 #include <assert.h>
 
-#if (JACK_ANDROID)
-#include <binder/IMemory.h>
-#include <binder/MemoryHeapBase.h>
-#include <utils/RefBase.h>
-#endif
-
 namespace Jack
 {
 
@@ -45,10 +39,6 @@ class SERVER_EXPORT JackPosixSemaphore : public detail::JackSynchro
     private:
 
         sem_t* fSemaphore;
-#if (JACK_ANDROID)
-        android::sp<android::IMemoryHeap> fSemaphoreMemory;
-        static pthread_mutex_t mutex;
-#endif
 
     protected:
 

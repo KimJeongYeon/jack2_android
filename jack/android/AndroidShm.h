@@ -6,7 +6,7 @@
 #include <utils/Log.h>
 #include <binder/MemoryHeapBase.h>
 #include "shm.h"
-
+#include "android/Shm.h"  //android extension of shm.h
 
 namespace android {
 

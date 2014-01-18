@@ -21,7 +21,6 @@
 
 #define __STDC_FORMAT_MACROS   // For inttypes.h to work in C++
 #define _GNU_SOURCE            /* for strcasestr() from string.h */
-#define _XOPEN_SOURCE 600
 
 #include <math.h>
 #include <stdio.h>
@@ -1321,7 +1320,7 @@ alsa_driver_wait (alsa_driver_t *driver, int extra_fd, int *status, float
 			driver->poll_late++;
 		}
 
-#if (JACK_ANDROID)
+#ifdef __ANDROID__
 		poll_result = poll (driver->pfd, nfds, -1);  //fix for sleep issue
 #else
 		poll_result = poll (driver->pfd, nfds, driver->poll_timeout);
@@ -2039,7 +2038,7 @@ alsa_driver_new (char *name, char *playback_alsa_device,
 				  SND_PCM_NONBLOCK) < 0) {
 			switch (errno) {
 			case EBUSY:
-#if (JACK_ANDROID)
+#ifdef __ANDROID__
                 jack_error ("\n\nATTENTION: The playback device \"%s\" is "
                             "already in use. Please stop the"
                             " application using it and "
@@ -2091,7 +2090,7 @@ alsa_driver_new (char *name, char *playback_alsa_device,
 				  SND_PCM_NONBLOCK) < 0) {
 			switch (errno) {
 			case EBUSY:
-#if (JACK_ANDROID)
+#ifdef __ANDROID__
                 jack_error ("\n\nATTENTION: The capture (recording) device \"%s\" is "
                             "already in use. Please stop the"
                             " application using it and "

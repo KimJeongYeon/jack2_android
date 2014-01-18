@@ -24,9 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "JackGlobals.h"
 #include <string.h> // for memset
 #include <unistd.h> // for _POSIX_PRIORITY_SCHEDULING check
-#if (JACK_ANDROID)
-#include <signal.h>  //for build
-#endif
 
 //#define JACK_SCHED_POLICY SCHED_RR
 #define JACK_SCHED_POLICY SCHED_FIFO
@@ -34,32 +31,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 namespace Jack
 {
 
-#if (JACK_ANDROID)
-void JackPosixThread::thread_exit_handler(int sig)
-{
-    printf("this signal is %d \n", sig);
-    pthread_exit(0);
-}
-#endif
-
 void* JackPosixThread::ThreadHandler(void* arg)
 {
     JackPosixThread* obj = (JackPosixThread*)arg;
     JackRunnableInterface* runnable = obj->fRunnable;
     int err;
 
-#if !(JACK_ANDROID)
     if ((err = pthread_setcanceltype(obj->fCancellation, NULL)) != 0) {
         jack_error("pthread_setcanceltype err = %s", strerror(err));
     }
-#else
-    struct sigaction actions;
-    memset(&actions, 0, sizeof(actions)); 
-    sigemptyset(&actions.sa_mask);
-    actions.sa_flags = 0; 
-    actions.sa_handler = thread_exit_handler;
-    sigaction(SIGUSR1,&actions,NULL);
-#endif
 
     // Signal creation thread when started with StartSync
     jack_log("JackPosixThread::ThreadHandler : start");
@@ -134,12 +114,10 @@ int JackPosixThread::StartImp(jack_native_thread_t* thread, int priority, int re
 
         jack_log("JackPosixThread::StartImp : create RT thread");
 
-#if !(JACK_ANDROID)
         if ((res = pthread_attr_setinheritsched(&attributes, PTHREAD_EXPLICIT_SCHED))) {
             jack_error("Cannot request explicit scheduling for RT thread res = %d", res);
             return -1;
         }
-#endif
 
         if ((res = pthread_attr_setschedpolicy(&attributes, JACK_SCHED_POLICY))) {
             jack_error("Cannot set RR scheduling class for RT thread res = %d", res);
@@ -177,11 +155,7 @@ int JackPosixThread::Kill()
     if (fThread != (jack_native_thread_t)NULL) { // If thread has been started
         jack_log("JackPosixThread::Kill");
         void* status;
-#if !(JACK_ANDROID)
         pthread_cancel(fThread);
-#else
-        pthread_kill(fThread, SIGUSR1);
-#endif
         pthread_join(fThread, &status);
         fStatus = kIdle;
         fThread = (jack_native_thread_t)NULL;
@@ -210,11 +184,7 @@ int JackPosixThread::KillImp(jack_native_thread_t thread)
     if (thread != (jack_native_thread_t)NULL) { // If thread has been started
         jack_log("JackPosixThread::Kill");
         void* status;
-#if !(JACK_ANDROID)
         pthread_cancel(thread);
-#else
-        pthread_kill(thread, SIGUSR1);
-#endif
         pthread_join(thread, &status);
         return 0;
     } else {

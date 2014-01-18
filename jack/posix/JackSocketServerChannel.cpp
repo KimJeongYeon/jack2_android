@@ -131,15 +131,10 @@ void JackSocketServerChannel::ClientAdd(detail::JackChannelTransactionInterface*
     int refnum = -1;
     res->fResult = fServer->GetEngine()->ClientExternalOpen(req->fName, req->fPID, req->fUUID, &refnum, &res->fSharedEngine, &res->fSharedClient, &res->fSharedGraph);
     if (res->fResult == 0) {
-#if (JACK_ANDROID)  //android doesn't recommend to use 'dynamic_cast' with RTTI.
-        JackClientSocket* socket = (JackClientSocket*)socket_aux;
-        int fd = GetFd(socket);
-#else
         JackClientSocket* socket = dynamic_cast<JackClientSocket*>(socket_aux);
         assert(socket);
         int fd = GetFd(socket);
         assert(fd >= 0);
-#endif
         fSocketTable[fd].first = refnum;
         fRebuild = true;
         jack_log("JackSocketServerChannel::ClientAdd ref = %d fd = %d", refnum, fd);
@@ -156,15 +151,10 @@ void JackSocketServerChannel::ClientAdd(detail::JackChannelTransactionInterface*
 
 void JackSocketServerChannel::ClientRemove(detail::JackChannelTransactionInterface* socket_aux, int refnum)
 {
-#if (JACK_ANDROID)  //android doesn't recommend to use 'dynamic_cast' with RTTI.
-    JackClientSocket* socket = (JackClientSocket*)socket_aux;
-    int fd = GetFd(socket);
-#else
     JackClientSocket* socket = dynamic_cast<JackClientSocket*>(socket_aux);
     assert(socket);
     int fd = GetFd(socket);
     assert(fd >= 0);
-#endif
 
     jack_log("JackSocketServerChannel::ClientRemove ref = %d fd = %d", refnum, fd);
     fSocketTable.erase(fd);

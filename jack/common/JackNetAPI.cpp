@@ -23,17 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "JackNetInterface.h"
 #include "JackAudioAdapterInterface.h"
 
-#ifdef USE_ANDROID_LOGCAT
-#define LOG_BUF_SIZE 1024
-#undef  LOG_TAG
-#ifdef SERVER_SIDE
-#define LOG_TAG "JackAudioServer"
-#else
-#define LOG_TAG "JackAudioClient"
-#endif
-#include <utils/Log.h>
-#endif
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -1088,51 +1077,24 @@ static void jack_format_and_log(int level, const char *prefix, const char *fmt, 
 
 LIB_EXPORT void jack_error(const char *fmt, ...)
 {
-#ifdef USE_ANDROID_LOGCAT
-    va_list ap;
-    char buf[LOG_BUF_SIZE];
-    va_start(ap, fmt);
-    vsnprintf(buf, LOG_BUF_SIZE, fmt, ap);
-    va_end(ap);
-    __android_log_write(ANDROID_LOG_ERROR, LOG_TAG, buf);
-#else
     va_list ap;
     va_start(ap, fmt);
     jack_format_and_log(LOG_LEVEL_INFO, "Jack: ", fmt, ap);
     va_end(ap);
-#endif
 }
 
 LIB_EXPORT void jack_info(const char *fmt, ...)
 {
-#ifdef USE_ANDROID_LOGCAT
-    va_list ap;
-    char buf[LOG_BUF_SIZE];
-    va_start(ap, fmt);
-    vsnprintf(buf, LOG_BUF_SIZE, fmt, ap);
-    va_end(ap);
-    __android_log_write(ANDROID_LOG_INFO, LOG_TAG, buf);
-#else
     va_list ap;
     va_start(ap, fmt);
     jack_format_and_log(LOG_LEVEL_INFO, "Jack: ", fmt, ap);
     va_end(ap);
-#endif
 }
 
 LIB_EXPORT void jack_log(const char *fmt, ...)
 {
-#ifdef USE_ANDROID_LOGCAT
-    va_list ap;
-    char buf[LOG_BUF_SIZE];
-    va_start(ap, fmt);
-    vsnprintf(buf, LOG_BUF_SIZE, fmt, ap);
-    va_end(ap);
-    __android_log_write(ANDROID_LOG_VERBOSE, LOG_TAG, buf);
-#else
     va_list ap;
     va_start(ap, fmt);
     jack_format_and_log(LOG_LEVEL_INFO, "Jack: ", fmt, ap);
     va_end(ap);
-#endif
 }

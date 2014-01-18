@@ -6,6 +6,7 @@
 #include <utils/Log.h>
 
 #include "../../common/shm.h"
+#include "../Shm.h"  //android extension of shm.h
 
 using namespace android;
 

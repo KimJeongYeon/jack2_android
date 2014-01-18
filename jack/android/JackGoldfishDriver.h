@@ -54,9 +54,6 @@ class JackGoldfishDriver : public JackAudioDriver
                  jack_nframes_t capture_latency,
                  jack_nframes_t playback_latency);
         int Close();
-        int Attach();
-        int Start();
-        int Stop();
         int Read();
         int Write();
         int SetBufferSize(jack_nframes_t buffer_size);

@@ -38,9 +38,6 @@
 #include <sys/types.h>
 #include "types.h"
 #include "JackCompilerDeps.h"
-#if (USE_ANDROID_SHM)
-#include <binder/MemoryHeapBase.h>
-#endif
 
 #define TRUE 1
 #define FALSE 0
@@ -56,10 +53,6 @@ extern "C"
 #define JACK_SHM_MAGIC 0x4a41434b	/* shm magic number: "JACK" */
 #define JACK_SHM_NULL_INDEX -1		/* NULL SHM index */
 #define JACK_SHM_REGISTRY_INDEX -2	/* pseudo SHM index for registry */
-#if (USE_ANDROID_SHM)
-#define JACK_SHM_REGISTRY_FD -1
-#endif
-#define JACK_SHM_HEAP_ENOUGH_COUNT 300
 
 
     /* On Mac OS X, SHM_NAME_MAX is the maximum length of a shared memory
@@ -86,7 +79,7 @@ extern "C"
     typedef char shm_name_t[SHM_NAME_MAX];
     typedef shm_name_t jack_shm_id_t;
 
-#elif (USE_ANDROID_SHM)
+#elif __ANDROID__
 
 #ifndef NAME_MAX
 #define NAME_MAX            255
@@ -108,10 +101,8 @@ extern "C"
     typedef enum {
         shm_POSIX = 1, 			/* POSIX shared memory */
         shm_SYSV = 2, 			/* System V shared memory */
-        shm_WIN32 = 3 			/* Windows 32 shared memory */
-#if (USE_ANDROID_SHM)
-        , shm_ANDROID = 4			/* Android shared memory */
-#endif
+        shm_WIN32 = 3,			/* Windows 32 shared memory */
+        shm_ANDROID = 4			/* Android shared memory */
     } jack_shmtype_t;
 
     typedef int16_t jack_shm_registry_index_t;
@@ -158,7 +149,7 @@ extern "C"
 
         jack_shmsize_t size;      /* for POSIX unattach */
         jack_shm_id_t id;        /* API specific, see above */
-#if (USE_ANDROID_SHM)
+#ifdef __ANDROID__
         jack_shm_fd_t fd;
 #endif
     }
@@ -179,7 +170,7 @@ extern "C"
     struct _jack_shm_info {
         jack_shm_registry_index_t index;       /* offset into the registry */
         uint32_t size;
-#if (USE_ANDROID_SHM)
+#ifdef __ANDROID__
         jack_shm_fd_t fd;
 #endif
         union {
@@ -218,114 +209,9 @@ extern "C"
     int jack_attach_shm_read (jack_shm_info_t*);
     int jack_attach_lib_shm_read (jack_shm_info_t*);
     int jack_resize_shm (jack_shm_info_t*, jack_shmsize_t size);
-#if (USE_ANDROID_SHM)
-    void jack_instantiate();
-#endif
 
 #ifdef __cplusplus
 }
-#endif
-
-#if (USE_ANDROID_SHM)
-#include <utils/RefBase.h>
-
-namespace android {
-
-    class IAndroidShm;
-
-    class Shm {
-        public:
-            static Shm* Instantiate();
-            virtual ~Shm();
-        private:
-            Shm();
-            Shm( const Shm&);
-            Shm& operator=(const Shm);
-
-        private:
-            void set_server_prefix (const char *server_name);
-            int server_initialize_shm (int new_registry);
-            int shm_lock_registry (void);
-            void shm_unlock_registry (void);
-            int access_registry (jack_shm_info_t *ri);
-            void remove_shm (jack_shm_id_t *id);
-            int create_registry (jack_shm_info_t *ri);
-            int shm_validate_registry ();
-            int GetUID();
-            int GetPID();
-            void shm_init_registry ();
-            void release_shm_entry (jack_shm_registry_index_t index);
-            jack_shm_registry_t * get_free_shm_info ();
-
-        public:
-            static void jack_shm_copy_from_registry (jack_shm_info_t*, jack_shm_registry_index_t);
-            static void jack_shm_copy_to_registry (jack_shm_info_t*, jack_shm_registry_index_t*);
-            static int jack_release_shm_info (jack_shm_registry_index_t);
-            static char* jack_shm_addr (jack_shm_info_t* si);
-            static int jack_register_server (const char *server_name, int new_registry);
-            static int jack_unregister_server (const char *server_name);
-            static int jack_initialize_shm (const char *server_name);
-            static int jack_initialize_shm_server (void);
-            static int jack_initialize_shm_client (void);
-            static int jack_cleanup_shm (void);
-            static int jack_shmalloc (const char *shm_name, jack_shmsize_t size, jack_shm_info_t* result);
-            static void jack_release_shm (jack_shm_info_t*);
-            static void jack_release_lib_shm (jack_shm_info_t*);
-            static void jack_destroy_shm (jack_shm_info_t*);
-            static int jack_attach_shm (jack_shm_info_t*);
-            static int jack_attach_lib_shm (jack_shm_info_t*);
-            static int jack_attach_shm_read (jack_shm_info_t*);
-            static int jack_attach_lib_shm_read (jack_shm_info_t*);
-            static int jack_resize_shm (jack_shm_info_t*, jack_shmsize_t size);
-
-        public:
-            void shm_copy_from_registry (jack_shm_info_t*, jack_shm_registry_index_t);
-            void shm_copy_to_registry (jack_shm_info_t*, jack_shm_registry_index_t*);
-            int release_shm_info (jack_shm_registry_index_t);
-            char* shm_addr (unsigned int fd);
-            
-            // here begin the API
-            int register_server (const char *server_name, int new_registry);
-            int unregister_server (const char *server_name);
-            
-            int initialize_shm (const char *server_name);
-            int initialize_shm_server (void);
-            int initialize_shm_client (void);
-            int cleanup_shm (void);
-            
-            int shmalloc (const char *shm_name, jack_shmsize_t size, jack_shm_info_t* result);
-            void release_shm (jack_shm_info_t*);
-            void release_lib_shm (jack_shm_info_t*);
-            void destroy_shm (jack_shm_info_t*);
-            int attach_shm (jack_shm_info_t*);
-            int attach_lib_shm (jack_shm_info_t*);
-            int attach_shm_read (jack_shm_info_t*);
-            int attach_lib_shm_read (jack_shm_info_t*);
-            int resize_shm (jack_shm_info_t*, jack_shmsize_t size);
-
-        private:
-            static jack_shmtype_t jack_shmtype;
-            static jack_shm_id_t   registry_id;
-            static jack_shm_fd_t   registry_fd;
-            static jack_shm_info_t registry_info;
-            static jack_shm_header_t   *jack_shm_header;
-            static jack_shm_registry_t *jack_shm_registry;
-            static char jack_shm_server_prefix[JACK_SERVER_NAME_SIZE];
-            static int semid;
-            static pthread_mutex_t mutex;
-            static Shm* ref;
-            
-            void jack_release_shm_entry (jack_shm_registry_index_t index);
-            int jack_shm_lock_registry (void);
-            void jack_shm_unlock_registry (void);
-            
-            //static  sp<IAndroidShm>  mShmService;
-            static sp<IMemoryHeap> mShmMemBase[JACK_SHM_HEAP_ENOUGH_COUNT];
-
-        public:
-            static sp<IAndroidShm> getShmService();
-    };
-};
 #endif
 
 #endif /* __jack_shm_h__ */

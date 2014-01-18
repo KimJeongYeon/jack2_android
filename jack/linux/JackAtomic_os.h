@@ -75,28 +75,10 @@ static inline char CAS(volatile UInt32 value, UInt32 newvalue, volatile void* ad
 #if !defined(__i386__) && !defined(__x86_64__)  && !defined(__PPC__)
 
 
-#if (JACK_ANDROID)
-#define JACK_ANDROID_CAS_ASM
-#include <sys/atomics.h>
-static inline char CAS(volatile UInt32 value, UInt32 newvalue, volatile void* addr)
-{
-#if defined(JACK_ANDROID_CAS_ASM)
-    return !__atomic_cmpxchg(value, newvalue, (volatile int *)addr);
-#else
-    //slow compare_and_swap_32
-    if (*(UInt32*)addr == value) {
-        *(UInt32*)addr = newvalue;
-        return true;
-    }
-    return false;
-#endif
-}
-#else
 static inline char CAS(volatile UInt32 value, UInt32 newvalue, volatile void* addr)
 {
     return __sync_bool_compare_and_swap ((UInt32*)addr, value, newvalue);
 }
-#endif
 #endif
 
 

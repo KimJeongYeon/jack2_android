@@ -33,11 +33,7 @@ Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
         than use the natural alignment of the processor and/or
         compiler.
         */
-        #if (JACK_ANDROID)
-            #define POST_PACKED_STRUCTURE
-        #else
-            #define POST_PACKED_STRUCTURE __attribute__((__packed__))
-        #endif
+        #define POST_PACKED_STRUCTURE __attribute__((__packed__))
     #endif
     
     #define MEM_ALIGN(x,y) x __attribute__((aligned(y)))

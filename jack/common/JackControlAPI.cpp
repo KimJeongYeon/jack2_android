@@ -579,9 +579,7 @@ jackctl_setup_signals(
 
     setsid();
 
-#if !(JACK_ANDROID)
     pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-#endif
 
     /* what's this for?
 

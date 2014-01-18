@@ -39,13 +39,6 @@
  */
 
 #include <alsa/asoundlib.h>
-#if (JACK_ANDROID)
-#include <alsa/rawmidi.h>
-#include <alsa/seq_event.h>
-#include <alsa/seq.h>
-#include <alsa/seqmid.h>
-#include <alsa/seq_midi_event.h>
-#endif
 
 #include <stdlib.h>
 #include <stdio.h>

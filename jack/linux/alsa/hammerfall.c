@@ -206,7 +206,7 @@ hammerfall_release (jack_hardware_t *hw)
 		return;
 	}
 
-#if !(JACK_ANDROID)
+#ifndef __ANDROID__
     if (h->monitor_thread) {
         pthread_cancel (h->monitor_thread);
         pthread_join (h->monitor_thread, &status);
