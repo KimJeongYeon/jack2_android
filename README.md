@@ -1,20 +1,21 @@
 JACK Audio Connection Kit for Android
 ====
 This project is JACK Audio Connection Kit for Android. (See also http://jackaudio.org/)
- - android 4.3 platform
+ - runs on android 4.4 platform(KitKat)
  - based on JACK2(jack-1.9.9.5)
- - support jack audio driver for emulator
+ - support both alsa and OpenSL ES driver
+ - support emulator
 
 Newly released Samsung's Professional Audio SDK was based on JACK and is part of Samsung Mobile SDK.
 For more information, visit http://developer.samsung.com/samsung-mobile-sdk
 
 Notice :
 Source code was retrieved from Samsung's Open Source Release Center(OSRC) at http://opensource.samsung.com/.
-You can find them from 'MOBILE' menu -> 'Mobile Phone' -> 'SM-N900T\_NA' (SM-N900T\_NA\_JB\_Opensource.zip) including build guide and requirements.
+You can find them from 'MOBILE' menu -> 'Mobile Phone' -> 'SM-N9005'(SM-N9005\_KK\_Opensource\_Update5.zip) including build guide and requirements.
 
 Requirements
 ----
- - Alsa user library(libasound.so) is required and available in "SM-N900T\_NA\_JB\_Opensource.zip".
+ - Alsa user library(libasound.so) is required and available in "SM-N9005\_KK\_Opensource\_Update5.zip".
  - required root privilege to run jack on adb shell.
 
 How to run
@@ -29,5 +30,10 @@ jack2_android supports emulator with sound using qemu's audio driver. Therefore 
    2. # androidshmservice &
    3. # jackd -v -d goldfish &
    4. # jack_simple_client &
+
+Hisory
+----
+ - 24.Oct.2013 : first upload.
+ - 18.Jan.2014 : code arranged, support KitKat and includes OpenSL ES driver.
 
 Document will be updated...
