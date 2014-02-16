@@ -18,9 +18,9 @@ How to build
 ----
 I introduce how to build jack for android emulator using partial build way(not full build).
  1. Requirements
-  - Get full source code of android using repo sync. For more information, please visit <A HREF="http://source.android.com/source/building.html">HERE</A>.
-  - ALSA user library(libasound.so) is required and available in "SM-N9005\_KK\_Opensource\_Update5.zip" also.
-  - Required root privilege to run jack on adb shell.
+  1. Get full source code of android using repo sync. For more information, please visit <A HREF="http://source.android.com/source/building.html">HERE</A>.
+  2. ALSA user library(libasound.so) is required and available in "SM-N9005\_KK\_Opensource\_Update5.zip" also.
+  3. Required root privilege to run jack on adb shell.
  2. Build
   1. Environment setup for android build(emulator):
    - $ cd {YOUR_ANDROID_SOURCE_PATH}/build
@@ -33,7 +33,7 @@ I introduce how to build jack for android emulator using partial build way(not f
    - $ mma
    - $ cd {YOUR_ANDROID_SOURCE_PATH}/vendor/samsung/common/external/jack/android
    - $ mma
-  3. If build has done successfully, binaries placed {YOUR_ANDROID_SOURCE_PATH}/out/target/product/generic/system. 
+ 3. If build has done successfully, binaries placed {YOUR_ANDROID_SOURCE_PATH}/out/target/product/generic/system. 
 
 How to run
 ----
@@ -48,7 +48,7 @@ jack2_android supports emulator with sound using qemu's audio driver. Therefore 
   - $ copy_target.sh
  3. run jack world!
   - $ adb shell
-```shell
+```
 root@generic:/ # androidshmservice &
 [1] 1249
 root@generic:/ # 
