@@ -20,22 +20,20 @@ I introduce how to build jack for android emulator using partial build way(not f
  1. Requirements
   - Get full source code of android using repo sync. For more information, please visit <A HREF="http://source.android.com/source/building.html">HERE</A>.
   - ALSA user library(libasound.so) is required and available in "SM-N9005\_KK\_Opensource\_Update5.zip" also.
-   - Decompress 'SM-N9005\_KK\_Opensource\_Update5.zip', then 'Platform.tar.gz'.
-   - Copy 'jack' and 'alsa-lib' dorectory from /SM-N9005\_KK\_Opensource\_Update5/vendor/samsung/common/external to {YOUR_ANDROID_SOURCE_PATH}/vendor/samsung/common/external
   - Required root privilege to run jack on adb shell.
  2. Build
-  - Environment setup for android build(emulator):
+  1. Environment setup for android build(emulator):
    - $ cd {YOUR_ANDROID_SOURCE_PATH}/build
    - $ source envsetup.sh
    - $ lunch aosp_arm-eng
-  - Build alsa-lib and jack:
+  2. Build alsa-lib and jack:
    - Decompress 'SM-N9005\_KK\_Opensource\_Update5.zip', then 'Platform.tar.gz'.
    - Copy 'jack' and 'alsa-lib' dorectory from /SM-N9005\_KK\_Opensource\_Update5/vendor/samsung/common/external to {YOUR_ANDROID_SOURCE_PATH}/vendor/samsung/common/external
    - $ cd {YOUR_ANDROID_SOURCE_PATH}/vendor/samsung/common/external/alsa_lib
    - $ mma
    - $ cd {YOUR_ANDROID_SOURCE_PATH}/vendor/samsung/common/external/jack/android
    - $ mma
-  - If build has done successfully, binaries placed {YOUR_ANDROID_SOURCE_PATH}/out/target/product/generic/system. 
+  3. If build has done successfully, binaries placed {YOUR_ANDROID_SOURCE_PATH}/out/target/product/generic/system. 
 
 How to run
 ----
@@ -50,7 +48,7 @@ jack2_android supports emulator with sound using qemu's audio driver. Therefore 
   - $ copy_target.sh
  3. run jack world!
   - $ adb shell
-```
+```shell
 root@generic:/ # androidshmservice &
 [1] 1249
 root@generic:/ # 
