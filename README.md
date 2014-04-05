@@ -14,11 +14,11 @@ Source code was retrieved from Samsung's <A HREF="http://opensource.samsung.com"
 How to build
 ----
 I will introduce how to build jack for android emulator using partial build way.
-1. Requirements
+- Requirements
     - Get full source code of android using repo sync. For more information, please visit <A HREF="http://source.android.com/source/building.html">HERE</A>.
     - alsa-lib is required and available in `SM-N9005_KK_Opensource_Update5.zip` also.
     - Required root privilege to run jack on adb shell.
-2. Build
+- Build
     - Environment setup for android build(emulator):
     - `$ cd {YOUR_ANDROID_SOURCE_PATH}/build`
     - `$ source envsetup.sh`
@@ -35,10 +35,10 @@ I will introduce how to build jack for android emulator using partial build way.
 How to install
 ----
 This project supports emulator which based on OpenSL ES as master driver with sound of course.
-1. Run emulator:
+- Run emulator:
     - If you didn't install Android SDK, visit http://developer.android.com/sdk/index.html and install latest one.
     - `$ {YOUR_SDK_PATH}/tools/emulator -avd {YOUR\_AVD\_NAME} -wipe-data`
-2. Install binaries
+- Install binaries
     - From source code build:
         - `$ cd {YOUR_ANDROID_SOURCE_PATH}/out/target/product/generic/system`
     - From prebuilt binary:
@@ -47,7 +47,7 @@ This project supports emulator which based on OpenSL ES as master driver with so
         - `$ cd jack2_android_binary_xxxxxxxx`
     - Push jack binaries to your emulator device using script:
         - run script `$ copy_target.sh`
-```
+```sh
 #!/bin/sh
 
 ########################################
