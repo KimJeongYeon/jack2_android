@@ -1,5 +1,8 @@
 JACK Audio Connection Kit for Android
 ====
+
+[![Build Status](https://travis-ci.org/KimJeongYeon/jack2_android.svg?branch=master)](https://travis-ci.org/KimJeongYeon/jack2_android)
+
 This project is JACK Audio Connection Kit for Android. (See also http://jackaudio.org/)
 - Runs on latest android 4.4.2 platform
 - Based on latest official JACK2(jack-1.9.9.5)
