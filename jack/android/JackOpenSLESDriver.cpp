@@ -175,7 +175,7 @@ extern "C"
     SERVER_EXPORT Jack::JackDriverClientInterface* driver_initialize(Jack::JackLockedEngine* engine, Jack::JackSynchro* table, const JSList* params) {
         jack_nframes_t sample_rate = JACK_OPENSLES_DEFAULT_SAMPLERATE;
         jack_nframes_t buffer_size = JACK_OPENSLES_DEFAULT_BUFFER_SIZE;
-        unsigned int capture_ports = 2;
+        unsigned int capture_ports = 0;  //because FastTrack doesn't support audio input.
         unsigned int playback_ports = 2;
         int wait_time = 0;
         const JSList * node;
