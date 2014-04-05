@@ -9,7 +9,7 @@ This project is JACK Audio Connection Kit for Android. (See also http://jackaudi
 Samsung's Professional Audio SDK was based on JACK and is part of Samsung Mobile SDK. For more information, visit http://developer.samsung.com/samsung-mobile-sdk.
 
 Notice :
-Source code was retrieved from Samsung's <A HREF="http://opensource.samsung.com">Open Source Release Center(OSRC)</A>. You can find them from `MOBILE` menu -> 'Mobile Phone'. <B>This repository(<A HREF="https://github.com/KimJeongYeon/jack2_android">KimJeongYeon/jack2_android</A>) only sync latest jack of <A HREF="http://opensource.samsung.com">OSRC</A>, whereas personal development going on <A HREF="https://github.com/KimJeongYeon/jack2">KimJeongYeon/jack2</A>.</B>
+Source code was retrieved from Samsung's <A HREF="http://opensource.samsung.com">Open Source Release Center(OSRC)</A>. You can find them from 'MOBILE' menu -> 'Mobile Phone'. <B>This repository(<A HREF="https://github.com/KimJeongYeon/jack2_android">KimJeongYeon/jack2_android</A>) only sync latest jack of <A HREF="http://opensource.samsung.com">OSRC</A>, whereas personal development going on <A HREF="https://github.com/KimJeongYeon/jack2">KimJeongYeon/jack2</A>.</B>
 
 How to build
 ----
@@ -20,7 +20,7 @@ I will introduce how to build jack for android emulator using partial build way.
     - Required root privilege.
 - Download source code
     - Download source code from <A HREF="http://opensource.samsung.com">OSRC</A>.
-        - Search keyword 'SM-N9005' then download `SM-N9005_KK_Opensource_Update7.zip` file.
+        - Search keyword 'SM-N9005' then download 'SM-N9005_KK_Opensource_Update7.zip' file.
         - `unzip SM-N9005_KK_Opensource_Update7.zip`, then `tar -xvzf Platform.tar.gz`.
     - Copy 'jack' and 'alsa-lib' directory from `vendor/samsung/common/external` to `{YOUR_ANDROID_SOURCE_PATH}/vendor/samsung/common/external`
         - `$ cp -r vendor/samsung/common/external/alsa-lib {YOUR_ANDROID_SOURCE_PATH}/vendor/samsung/common/external`
@@ -37,7 +37,7 @@ I will introduce how to build jack for android emulator using partial build way.
     - Build jack:
         - `$ cd {YOUR_ANDROID_SOURCE_PATH}/vendor/samsung/common/external/jack/android`
         - `$ mma`
-    - If build done successfully, binaries placed at `{YOUR_ANDROID_SOURCE_PATH}/out/target/product/generic/system`. Also, prebuilt binaries could be find <A HREF="https://github.com/KimJeongYeon/jack2_android/tree/master/binaries">HERE</A>.
+    - If build done successfully, binaries placed at '{YOUR\_ANDROID\_SOURCE\_PATH}/out/target/product/generic/system'. Also, prebuilt binaries could be find <A HREF="https://github.com/KimJeongYeon/jack2_android/tree/master/binaries">HERE</A>.
 
 How to install
 ----
