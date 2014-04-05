@@ -1,7 +1,7 @@
-language: cpp
+language:
+  - cpp
 compiler:
   - gcc
-  - clang
 install:
   - sudo apt-get install libsamplerate-dev libsndfile-dev libasound2-dev
 script:
