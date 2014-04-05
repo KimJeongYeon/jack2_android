@@ -3,4 +3,4 @@ compiler:
   - gcc
   - clang
 # Change this to your needs
-script: ./waf configure;./waf make
+script: cd ./jack;./waf configure;./waf make
