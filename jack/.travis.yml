@@ -1,0 +1,6 @@
+ilanguage: cpp
+compiler:
+  - gcc
+  - clang
+# Change this to your needs
+script: ./waf configure;./waf make
