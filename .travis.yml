@@ -2,5 +2,7 @@ ilanguage: cpp
 compiler:
   - gcc
   - clang
+install:
+  - sudo apt-get install libsamplerate-dev
 # Change this to your needs
 script: cd ./jack;./waf configure;./waf make
