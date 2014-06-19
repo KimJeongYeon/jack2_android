@@ -30,32 +30,26 @@ namespace Jack
 
 int JackFreewheelDriver::Process()
 {
-   int res = 0;
-
    jack_log("JackFreewheelDriver::Process master %lld", fEngineControl->fTimeOutUsecs);
    JackDriver::CycleTakeBeginTime();
 
    if (fEngine->Process(fBeginDateUst, fEndDateUst)) {
 
         // Resume connected clients in the graph
-        if (ResumeRefNum()) {
+        if (ResumeRefNum() < 0) {
             jack_error("JackFreewheelDriver::Process: ResumeRefNum error");
-            res = -1;
         }
 
         // Special "SuspendRefNum" with longer timeout
-        if (SuspendRefNum() < 0) { // Wait for all clients to finish for 10 sec
-            jack_error("JackFreewheelDriver::ProcessSync: SuspendRefNum error");
-            /* We have a client time-out error, but still continue to process, until a better recovery strategy is chosen */
-            return 0;
+        if (SuspendRefNum() < 0) { // Wait for all clients to finish for FREEWHEEL_DRIVER_TIMEOUT sec
+            jack_error("JackFreewheelDriver::Process: SuspendRefNum error");
         }
 
    } else { // Graph not finished: do not activate it
         jack_error("JackFreewheelDriver::Process: Process error");
-        res = -1;
    }
 
-   return res;
+   return 0;
 }
 
 // When used in "slave" mode
@@ -74,7 +68,7 @@ int JackFreewheelDriver::ProcessWriteSync()
 {
     // Generic "SuspendRefNum" here
     if (JackDriver::SuspendRefNum() < 0) {
-        jack_error("JackFreewheelDriver::ProcessSync SuspendRefNum error");
+        jack_error("JackFreewheelDriver::ProcessSync: SuspendRefNum error");
         return -1;
     }
     return 0;
