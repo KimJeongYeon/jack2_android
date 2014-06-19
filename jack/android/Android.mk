@@ -2,8 +2,6 @@
 # jack-1.9.9.5
 #
 
-ifeq (true,$(call spf_check,SEC_PRODUCT_FEATURE_AUDIO_JAM,TRUE))
-
 LOCAL_PATH := $(call my-dir)
 JACK_ROOT := $(call my-dir)/..
 SUPPORT_ALSA_IN_JACK := true
@@ -1341,6 +1339,4 @@ LOCAL_MODULE_TAGS := eng optional
 LOCAL_MODULE := jack_multiple_metro
 
 include $(BUILD_EXECUTABLE)
-
-endif
 
