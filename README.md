@@ -84,8 +84,10 @@ adb push $COPY_PATH/lib/jack/jack_net.so /system/lib/jack
 adb push $COPY_PATH/lib/jack/jack_opensles.so /system/lib/jack
 adb push $COPY_PATH/lib/jack/netmanager.so /system/lib/jack
 adb push $COPY_PATH/lib/jack/profiler.so /system/lib/jack
+adb push $COPY_PATH/lib/jack/in.so /system/lib/jack
+adb push $COPY_PATH/lib/jack/out.so /system/lib/jack
+adb push $COPY_PATH/lib/jack/inprocess.so /system/lib/jack
 
-adb push $COPY_PATH/lib/example_lib.so /system/lib
 adb push $COPY_PATH/lib/libasound.so /system/lib
 adb push $COPY_PATH/lib/libfluidsynth.so /system/lib
 adb push $COPY_PATH/lib/libglib-2.0.so /system/lib
